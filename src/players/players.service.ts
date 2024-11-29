@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { PrismaService } from 'src/prisma.service';
@@ -26,4 +26,24 @@ export class PlayersService {
   remove(id: number) {
     return this.db.player.delete({where: {id: id}});
   }
+
+
+  async addPlayerToTeam(id: number, createPlayerDto: CreatePlayerDto){
+    const team = await this.db.team.findUnique({
+      where: { id: id },
+    })
+
+    if(!team) {
+      throw new NotFoundException(`Team with ID not found`);
+    }
+
+    const newPlayer = await this.db.player.create({
+      data: {
+        name: createPlayerDto.name,
+        goalCount: createPlayerDto.goalCount,
+        birthDate: createPlayerDto.birthDate,
+      }
+    })
+  }
+
 }

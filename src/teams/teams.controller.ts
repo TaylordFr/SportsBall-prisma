@@ -17,6 +17,11 @@ export class TeamsController {
     return this.teamsService.findAll();
   }
 
+  @Get('/players')
+  findAllWPlayers(){
+    return this.teamsService.findAllWPlayers();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.teamsService.findOne(+id);
