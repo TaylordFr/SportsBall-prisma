@@ -8,7 +8,14 @@ export class PlayersService {
   constructor(private readonly db: PrismaService) {};
 
   create(createPlayerDto: CreatePlayerDto) {
-    return 'This action adds a new player';
+    return this.db.player.create({
+      data: {
+        name: createPlayerDto.name,
+        goalCount: createPlayerDto.goalCount,
+        birthDate: createPlayerDto.birthDate,
+        teamId: createPlayerDto.teamId
+      }
+    });
   }
 
   findAll() {
@@ -28,22 +35,15 @@ export class PlayersService {
   }
 
 
-  async addPlayerToTeam(id: number, createPlayerDto: CreatePlayerDto){
-    const team = await this.db.team.findUnique({
-      where: { id: id },
-    })
+  // async addPlayerToTeam(id: number, createPlayerDto: CreatePlayerDto){
+  //   const team = await this.db.team.findUnique({
+  //     where: { id: id },
+  //   })
 
-    if(!team) {
-      throw new NotFoundException(`Team with ID not found`);
-    }
+  //   if(!team) {
+  //     throw new NotFoundException(`Team with ID not found`);
+  //   }
 
-    const newPlayer = await this.db.player.create({
-      data: {
-        name: createPlayerDto.name,
-        goalCount: createPlayerDto.goalCount,
-        birthDate: createPlayerDto.birthDate,
-      }
-    })
-  }
+  // }
 
 }
