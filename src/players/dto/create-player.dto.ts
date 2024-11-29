@@ -11,7 +11,7 @@ export class CreatePlayerDto {
   
   @IsNotEmpty()
   @IsDateString()
-  birthDate: Date
+  birthDate: string
 
   @IsNotEmpty()
   @IsNumber()
